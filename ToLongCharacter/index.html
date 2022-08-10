@@ -10,26 +10,69 @@
         body {
             display: flex;
             flex-direction: column;
+            height: 100vh;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            flex: 1 auto;
         }
 
         button {
             height: 5vh;
             margin: 10px;
         }
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 0;
+        }
+
+        ul>li {
+            list-style: none;
+        }
+
+        ul>li>a {
+            text-decoration: none;
+            color: #d0d7de;
+        }
+
+        .footer {
+            background-color: #f6f8fa;
+            border-radius: 1024px;
+            flex: 0 auto;
+        }
     </style>
 </head>
 
 <body>
-    <h1>To Long Character</h1>
+    <div class="content">
+        <h1>To Long Character</h1>
 
-    <textarea name="origin" id="origin" cols="30" rows="10" placeholder="What to convert? "></textarea>
+        <textarea name="origin" id="origin" cols="30" rows="10" placeholder="What to convert? "
+            onfocusout="convert()"></textarea>
 
-    <button onclick="convert()">Convert</button>
+        <button onclick="convert()">Convert</button>
 
-    <textarea id="converted"></textarea>
+        <textarea id="converted"></textarea>
 
+        <button onclick="copy()">Copy</button>
 
-    <p>(Too lazy to make it prettier. )</p>
+        <p>(Too lazy to make it prettier. )</p>
+    </div>
+
+    <footer class="footer">
+        <ul>
+            <li><a href="https://github.com/JianzhengLuo/ToLongCharacter">Source</a></li>
+            <li><a href="https://github.com/JianzhengLuo">JianzhengLuo</a></li>
+            <li><a href="https://github.com/JianzhengLuo/ToLongCharacter#contribute">Contribute</a>
+            </li>
+        </ul>
+    </footer>
 
     <script>
         let button = document.querySelector("button");
@@ -41,7 +84,7 @@
         fetch("./characters.json").then((response) => {
             return response.json();
         }).then((data) => {
-            var dict = data;
+            dict = data;
             alert(`Loaded dict ${dict.version} . `);
             button.disabled = false;
             button.innerText = "Convert";
@@ -54,6 +97,12 @@
                 converted += dict[origin[i]] ? dict[origin[i]] : origin[i];
             }
             document.querySelector("#converted").innerText = converted;
+        }
+
+        function copy() {
+            document.querySelector("#converted").select();
+            document.execCommand("copy");
+            alert("Copied! ");
         }
     </script>
 
